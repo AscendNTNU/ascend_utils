@@ -1,0 +1,14 @@
+<!-- Primary launchfile for onboard computers -->
+<launch>
+  <!-- Arguments -->
+
+  <!-- AI Nodes -->
+
+  <!-- Control Nodes -->
+
+  <!-- Perception Nodes -->
+
+
+  <!-- Misc -->
+
+</launch>

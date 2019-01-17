@@ -1,0 +1,13 @@
+<!-- Primary launchfile for the offboard computer -->
+<launch>
+  <!-- Arguments -->
+
+  <!-- AI Nodes -->
+
+  <!-- Control Nodes -->
+
+  <!-- Perception Nodes -->
+
+  <!-- Misc -->
+
+</launch>
