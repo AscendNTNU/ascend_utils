@@ -1,10 +1,12 @@
 <!-- Primary launchfile for onboard computers -->
 <launch>
   <!-- Arguments -->
+  <arg name="use_fluid_fsm" default="true"/>
 
   <!-- AI Nodes -->
 
   <!-- Control Nodes -->
+  <include name="$(find fluid_fsm)/launch/fluid_fsm.launch" if="$(arg use_fluid_fsm)"/>
 
   <!-- Perception Nodes -->
 
