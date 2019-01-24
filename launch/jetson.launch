@@ -2,15 +2,19 @@
 <launch>
   <!-- Arguments -->
   <arg name="use_fluid_fsm" default="true"/>
+  <arg name="fluid_fsm_fcu_url" default="/dev/ttyUSB0:921600"/> <!-- TODO: should explicitly use ACM driver -->
 
-  <!-- AI Nodes -->
+  <group ns="$(env ROS_HOSTNAME)">
+    <!-- AI Nodes -->
 
-  <!-- Control Nodes -->
-  <include name="$(find fluid_fsm)/launch/fluid_fsm.launch" if="$(arg use_fluid_fsm)"/>
+    <!-- Control Nodes -->
+    <include name="$(find fluid_fsm)/launch/fluid_fsm.launch" if="$(arg use_fluid_fsm)">
+      <arg name="fcu_url" value="$(arg fluid_fsm_fcu_url)"/>
+    </include>
 
-  <!-- Perception Nodes -->
+    <!-- Perception Nodes -->
 
+    <!-- Misc -->
 
-  <!-- Misc -->
-
+  </group>
 </launch>
