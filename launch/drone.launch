@@ -1,0 +1,23 @@
+<!-- Primary launchfile for onboard computers -->
+<launch>
+  <!-- Arguments -->
+  <arg name="namespace" default="drone_1"/>
+
+  <arg name="use_fluid_fsm" default="true"/>
+  <arg name="use_control_kalman" default="true"/>
+  <arg name="use_control_test_nodes" default="true"/>
+ 
+  <!-- Launch files -->
+  <group ns="$(arg namespace)">
+    <!-- AI Nodes -->
+
+    <!-- Control Nodes -->
+    <include file="$(find control_test_nodes)/launch/fullFeedback.launch" if="$(arg use_control_test_nodes)"/>
+    <include file="$(find kalman_filter)/launch/kalman.launch" if="$(arg use_control_kalman)"/>
+	<include file="$(find fluid_fsm)/launch/server_pixhawk.launch" if="$(arg use_fluid_fsm)"/>
+        <!-- Perception Nodes -->
+
+    <!-- Misc -->
+
+  </group>
+</launch>
