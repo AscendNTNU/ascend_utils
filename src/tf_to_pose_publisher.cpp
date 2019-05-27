@@ -13,6 +13,8 @@ int main(int argc, char** argv){
   tf2_ros::TransformListener tfListener(tfBuffer);
 
   ros::Rate rate(30);
+
+  bool gotFirst = false;
   
   while (ros::ok()) {
     ros::spinOnce();
@@ -21,10 +23,15 @@ int main(int argc, char** argv){
 
     try {
       transformStamped = tfBuffer.lookupTransform("world", "IMU", ros::Time(0));
+
+      gotFirst = true;
     }
     catch (tf2::TransformException &ex) {
 
-      ROS_WARN("%s",ex.what());
+      if (gotFirst) {
+      	ROS_WARN("%s",ex.what());
+      }
+
       ros::Duration(1.0).sleep();
 
       continue;
