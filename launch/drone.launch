@@ -5,17 +5,38 @@
 
   <arg name="use_fluid_fsm" default="true"/>
   <arg name="use_control_kalman" default="true"/>
-  <arg name="use_control_test_nodes" default="true"/>
+  <arg name="use_control_test_nodes" default="false"/>
+  <arg name="use_obstacle_avoidance" default="true"/>
+  <arg name="use_immediate_collision_detection" default="true"/>
+  <arg name="use_tf_to_pose_publisher" default="false"/>
+  <arg name="use_frames" default="false"/>
+  <arg name="use_ascend_orb" default="false"/>
+  <arg name="orb_x_scale" default="0.65"/>
+  <arg name="orb_y_scale" default="0.6"/>
+  <arg name="use_zed_orb" default="true"/>
+
+  <!-- Environment setup -->
+  <env name="ROS_PACKAGE_PATH" value="$(optenv ROS_PACKAGE_PATH):/home/nvidia/ascend-orb-slam/Examples/ROS"/>
  
   <!-- Launch files -->
 <!--  <group ns="$(arg namespace)">-->
     <!-- AI Nodes -->
+    <include file="$(find immediate_collision_detection)/launch/main.launch" if="$(arg use_immediate_collision_detection)"/>
 
     <!-- Control Nodes -->
     <include file="$(find control_test_nodes)/launch/fullFeedback.launch" if="$(arg use_control_test_nodes)"/>
     <include file="$(find kalman_filter)/launch/kalman.launch" if="$(arg use_control_kalman)"/>
-    <include file="$(find fluid_fsm)/launch/server_pixhawk.launch" if="$(arg use_fluid_fsm)"/>
+    <include file="$(find fluid)/launch/server_pixhawk.launch" if="$(arg use_fluid_fsm)"/>
+    <node name="obstacle_avoidance_node" pkg="Obst_Av" type="obstacle_avoidance" if="$(arg use_obstacle_avoidance)"/>
+
     <!-- Perception Nodes -->
+    <node name="tf_to_pose_publisher" pkg="ascend_utils" type="tf_to_pose_publisher" if="$(arg use_tf_to_pose_publisher)"/>
+    <include file="$(find frames)/launch/frames.launch" if="$(arg use_frames)"/>
+    <node if="$(arg use_tf_to_pose_publisher)"
+      name="orb-slam" pkg="ORB_SLAM2" type="RGBD-ZED" 
+      args="/home/nvidia/ascend-orb-slam/Vocabulary/ORBvoc.bin /home/nvidia/ascend-orb-slam/Examples/RGB-D/zed_C_vga.yaml $(arg orb_x_scale) $(arg orb_y_scale)"/>
+
+      <include file="$(find zed_wrapper)/launch/zed.launch" if="$(arg use_zed_orb)"/>
 
     <!-- Misc -->
 
