@@ -37,6 +37,7 @@
       args="/home/nvidia/ascend-orb-slam/Vocabulary/ORBvoc.bin /home/nvidia/ascend-orb-slam/Examples/RGB-D/zed_C_vga.yaml $(arg orb_x_scale) $(arg orb_y_scale)"/>
 
       <include file="$(find zed_wrapper)/launch/zed.launch" if="$(arg use_zed_orb)"/>
+      <include file="$(find camera_publisher)/launch/camera_publisher.launch" />
 
     <!-- Misc -->
 
